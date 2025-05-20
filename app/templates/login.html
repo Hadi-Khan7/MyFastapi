@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Your Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --google-color: #db4437;
+            --google-hover: #c23321;
+            --facebook-color: #3b5998;
+            --facebook-hover: #2d4373;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #ddd;
+            --error-bg: #f8d7da;
+            --error-text: #721c24;
+            --error-border: #f5c6cb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .error-message {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid var(--error-border);
+            font-size: 14px;
+        }
+
+        .oauth-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .btn-google {
+            background-color: var(--google-color);
+            color: white;
+        }
+
+        .btn-google:hover {
+            background-color: var(--google-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-facebook {
+            background-color: var(--facebook-color);
+            color: white;
+        }
+
+        .btn-facebook:hover {
+            background-color: var(--facebook-hover);
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--light-text);
+            font-size: 14px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider::before {
+            margin-right: 15px;
+        }
+
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            padding: 13px;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            .form-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome back</h2>
+
+        <!-- Error message display -->
+        <div class="error-message" id="error-message" style="display: none;">
+            <!-- Error messages will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Regular Login Form -->
+        <form id="login-form" method="post" action="/login">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <div class="form-footer">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <div class="forgot-password">
+                    <a href="/forgot-password">Forgot password?</a>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Log In</button>
+        </form>
+
+        <div class="divider">
+            or continue with
+        </div>
+
+        <!-- OAuth Login Buttons - Moved below the form -->
+        <div class="oauth-section">
+            <button class="btn btn-google" onclick="window.location.href='/auth/google'">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <button class="btn btn-facebook" onclick="window.location.href='/auth/facebook'">
+                <i class="fab fa-facebook-f"></i> Continue with Facebook
+            </button>
+        </div>
+
+        <div class="register-link">
+            Don't have an account? <a href="/register">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        // Display error messages from URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorParam = urlParams.get('error');
+            const errorMessage = document.getElementById('error-message');
+
+            if (errorParam) {
+                let message = '';
+
+                switch(errorParam) {
+                    case 'oauth_failed':
+                        message = 'OAuth login failed. Please try again.';
+                        break;
+                    case 'google_oauth_failed':
+                        message = 'Google login failed. Please try again.';
+                        break;
+                    case 'facebook_oauth_failed':
+                        message = 'Facebook login failed. Please try again.';
+                        break;
+                    case 'invalid_credentials':
+                        message = 'Invalid email or password. Please try again.';
+                        break;
+                    case 'account_locked':
+                        message = 'Your account has been temporarily locked due to too many failed attempts.';
+                        break;
+                    default:
+                        message = 'An error occurred. Please try again.';
+                }
+
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+
+            // Form validation
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', function(e) {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                if (!email || !password) {
+                    e.preventDefault();
+                    errorMessage.textContent = 'Please fill in all fields.';
+                    errorMessage.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
